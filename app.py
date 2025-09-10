@@ -77,5 +77,19 @@ def anime_page(mal_id):
     return render_template("anime.html", anime=anime_details)
 
 
+# Extra static pages
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/credits")
+def credits():
+    return render_template("credits.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
