@@ -5,7 +5,6 @@
   <title>Aynime - Top Anime</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* Body Gradient Pink */
     body {
       background: linear-gradient(-45deg, #ffb6c1, #ff69b4, #ffc0cb, #ff1493);
       background-size: 400% 400%;
@@ -20,29 +19,34 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4, #ffb6c1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: #fff !important;
+      font-size: 1.6rem;
+    }
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      margin: 0 8px;
+    }
+    .nav-link:hover {
+      color: #ffe4f2 !important;
+    }
+
     /* Header */
     header {
-      background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4, #ffb6c1);
-      background-size: 400% 400%;
-      animation: gradientHeader 5s ease infinite;
       padding: 25px;
       text-align: center;
       font-size: 2.5rem;
       font-weight: bold;
       color: #fff;
       letter-spacing: 2px;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       cursor: pointer;
-    }
-    header:hover {
-      transform: scale(1.02);
-      transition: transform 0.3s;
-    }
-    @keyframes gradientHeader {
-      0% { background-position: 0% 50%; transform: scale(1); }
-      50% { background-position: 100% 50%; transform: scale(1.05); }
-      100% { background-position: 0% 50%; transform: scale(1); }
     }
 
     /* Search box */
@@ -54,13 +58,15 @@
       grid-template-columns: repeat(5, 1fr);
       gap: 20px;
       justify-items: center;
+      margin-top: 30px;
     }
     .anime-card {
-      background: rgba(255, 182, 193, 0.7);
+      background: rgba(255, 182, 193, 0.8);
       border-radius: 12px;
       overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
+      padding-bottom: 10px;
     }
     .anime-card:hover {
       transform: scale(1.05);
@@ -78,6 +84,20 @@
       margin: 10px 0;
     }
     .anime-card a { text-decoration: none; color: inherit; }
+
+    /* Status badge for My List */
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .Watching { background-color: #ffeb3b; color: #000; }
+    .Plan { background-color: #03a9f4; color: #fff; }
+    .Dropped { background-color: #f44336; color: #fff; }
+    .Completed { background-color: #4caf50; color: #fff; }
 
     /* List/Grid toggle */
     .view-toggle { text-align: center; margin-bottom: 15px; }
@@ -135,6 +155,22 @@
   </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">🌸 Aynime</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/my_list">My List</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/signup">Signup</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
   <header onclick="window.location='/'">
     🔥 Aynime Anime Portal 🔥
   </header>
@@ -148,7 +184,9 @@
 
     <!-- View toggle -->
     <div class="view-toggle">
-      <button onclick="document.body.classList.toggle('list-view')" class="btn btn-outline-light">Toggle List / Grid View</button>
+      <button onclick="document.body.classList.toggle('list-view')" class="btn btn-outline-light">
+        Toggle List / Grid View
+      </button>
     </div>
 
     <!-- Anime grid -->
@@ -159,6 +197,12 @@
           <img src="{{ anime.image }}" alt="{{ anime.title }}">
           <h6>{{ anime.title }}</h6>
         </a>
+        {% if anime.status %}
+        <!-- Show status if anime is in My List -->
+        <span class="status-badge {% if anime.status=='Plan to Watch' %}Plan{% else %}{{ anime.status }}{% endif %}">
+          {{ anime.status }}
+        </span>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
@@ -182,6 +226,10 @@
       <a href="/contact">Contact</a> | 
       <a href="/credits">Credits</a>
     </p>
+    <div style="margin-top:10px;">
+      <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Ayten's Photo" 
+           style="width:60px;height:60px;border-radius:50%;border:2px solid #ff69b4;">
+    </div>
   </footer>
 </body>
 </html>
